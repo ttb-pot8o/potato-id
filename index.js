@@ -89,6 +89,16 @@ function fill_table () {
   }
   var data = JSON.parse(str_data);
   console.log(data);
+  
+  var potato = data.volume + '_' + data.mass + '_' + data.time + '_' + data.place
+  function idWriter () {
+    var potatoList = data.map(p => {
+      p = potato;
+      return p;
+    })
+    return potatoList;
+  }
+  idWriter();
 }
 
 function main () {
