@@ -1,4 +1,3 @@
-
 /* determine how to make XHR requests in this browser */
 function xhr_callable() {
   var xhr;
@@ -21,30 +20,31 @@ function xhr_callable() {
   return xhr;
 }
 
+
 var http = {
   sync: {
-    get: function (url, data) {
+    _xhr: function (method, url, data, mime_type) {
       var xhr = xhr_callable();
 
-      xhr.open("GET", url, false);
-      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.open(method, url, false);
+      xhr.setRequestHeader('Content-Type', mime_type || 'application/json');
       xhr.send(data || null);
-      // need an error condition here
+      // TODO
+      if (xhr.status === 200) {
+        return null;
+      }
       return xhr.responseText;
+    },
 
+    get: function (url, data) {
+      return this._xhr("GET", url, data);
     },
     post: function (url, data) {
-      var xhr = xhr_callable();
-
-      xhr.open("POST", url, false);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(data || null);
-      // need an error condition here
-      return xhr.responseText;
+      return this._xhr("POST", url, data);
     }
   },
 
-  nosync: {
+   nosync: {
     get: function (url, callback, failfun) {
       var xhr = xhr_callable();
       xhr.open("GET", url, true); // true for asynchronous
@@ -59,7 +59,6 @@ var http = {
         }
       }
       xhr.send(null); // connection close
-
     },
 
     post: function (url, callback, failfun, data) {
@@ -78,7 +77,25 @@ var http = {
         }
       }
       xhr.send(data);
-
     }
   }
+}
+
+function fill_table () {
+  var str_data = http.sync.get('https://catnipcdn.pagekite.me/data');
+  if (data === null) {
+    console.log('some error fetching');
+    return false;
+  }
+  var data = JSON.parse(str_data);
+  console.log(data);
+}
+
+function main () {
+  fill_table();
+}
+
+window.onload = function _main () {
+  console.log("init page");
+  main();
 }
