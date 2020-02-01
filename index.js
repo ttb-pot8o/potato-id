@@ -30,7 +30,7 @@ var http = {
       xhr.setRequestHeader('Content-Type', mime_type || 'application/json');
       xhr.send(data || null);
       // TODO
-      if (xhr.status === 200) {
+      if (xhr.status !== 200) {
         return null;
       }
       return xhr.responseText;
@@ -81,24 +81,22 @@ var http = {
   }
 }
 
+/* developer env vs production server */
+function get_env_host() {
+  return null !== window.location.href.match(/^http:\/\/localhost:(3000|9000).*$/)
+    ? "http://localhost:9000"
+    : "https://catnipcdn.pagekite.me" ;
+}
+
 function fill_table () {
-  var str_data = http.sync.get('https://catnipcdn.pagekite.me/data');
+  var str_data = http.sync.get(get_env_host() + '/data');
   if (data === null) {
     console.log('some error fetching');
     return false;
   }
+  console.log(str_data);
   var data = JSON.parse(str_data);
   console.log(data);
-  
-  var potato = data.volume + '_' + data.mass + '_' + data.time + '_' + data.place
-  function idWriter () {
-    var potatoList = data.map(p => {
-      p = potato;
-      return p;
-    })
-    return potatoList;
-  }
-  idWriter();
 }
 
 function main () {
