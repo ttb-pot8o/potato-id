@@ -97,6 +97,18 @@ function fill_table () {
   console.log(str_data);
   var data = JSON.parse(str_data);
   console.log(data);
+  var table = document.getElementById("potatoTable");
+  
+  data.map((obj) => {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td class="id">' + obj.volume + '_' + obj.mass + '_' + obj.introduced.time + '_' + obj.introduced.place + '</td>' +
+      '<td class="one">' + obj.introduced.place + '</td>' +
+      '<td class="two">' +  + '</td>' +
+      '<td class="three">' + '</td>' +
+      '<td class="four">' + '</td>';
+    fill_table.appendChild(tr);
+  })
 }
 
 function main () {
