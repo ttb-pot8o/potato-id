@@ -94,21 +94,35 @@ function fill_table () {
     console.log('some error fetching');
     return false;
   }
-  console.log(str_data);
   var data = JSON.parse(str_data);
-  console.log(data);
   var table = document.getElementById("potatoTable");
-  var dataArray = Object.keys(data);
-  dataArray.map((obj) => {
+
+  data.forEach(function (obj) {
+    var id = obj.id;
+    var evident = obj.evident;
+    var emergent = obj.emergent;
+
     var tr = document.createElement('tr');
     tr.innerHTML =
-      '<td class="id">' + obj.volume + '_' + obj.mass + '_' + obj.introduced.time + '_' + obj.introduced.place + '</td>' +
-      '<td class="one">' + obj.introduced.place + '</td>' +
-      '<td class="two">' +  + '</td>' +
-      '<td class="three">' + '</td>' +
-      '<td class="four">' + '</td>';
-    fill_table.appendChild(tr);
-  })
+      // evident
+      '<td class="id">' + id + '</td>' +
+      '<td class="evident mass">' + evident.mass + '</td>' +
+      '<td class="evident volume">' + evident.volume + '</td>' +
+      '<td class="evident when">' + evident.introduced.when + '</td>' +
+      '<td class="evident where">' + evident.introduced.where + '</td>' +
+      '<td class="evident image">' + evident['3d'].image + '</td>' +
+      '<td class="evident heightmap">' + evident['3d'].heightmap + '</td>' +
+
+      // emergent
+      '<td class="emergent density">' + emergent.density + '</td>'  +
+      '<td class="emergent variety">' + emergent.variety + '</td>' +
+      '<td class="emergent color">' + (emergent.color === undefined ? '' : emergent.color) + '</td>' +
+      '<td class="emergent size">' + emergent.size + '</td>' +
+      '<td class="emergent grade">' + emergent.grade + '</td>'
+      ;
+    table.appendChild(tr);
+  });
+
 }
 
 function main () {
