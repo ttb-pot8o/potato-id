@@ -98,8 +98,8 @@ function fill_table () {
   var data = JSON.parse(str_data);
   console.log(data);
   var table = document.getElementById("potatoTable");
-  
-  data.map((obj) => {
+  var dataArray = Object.keys(data);
+  dataArray.map((obj) => {
     var tr = document.createElement('tr');
     tr.innerHTML =
       '<td class="id">' + obj.volume + '_' + obj.mass + '_' + obj.introduced.time + '_' + obj.introduced.place + '</td>' +
