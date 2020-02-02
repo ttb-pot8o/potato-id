@@ -13,78 +13,81 @@
   </head>
 
   <body>
-    
+    <div id="grid-root">
 
-<div class="table">
-  <div class=" box id">Serial #</div>
-  <div class="box lot">Lot</div>
-  <div class="box evident">Evident</div>
-  <div class="bx emergent">Emergent</div>
-  <div class="box check">Check Summoing</div>
-  <div class="box-d id-d">Serial #</div>
-  <div class="box-d lot-d">Lot</div>
-  <div class="box-d evident-d">Evident</div>
-  <div class="box-d emergent-d">Emergent</div>
-  <div class="box-d check-d">Check Summoing</div>
-</div>
+      <div class="grid-item" id="cell-title">
+        <header>
+          <h1>Potato <-> ID</h1>
+        </header>
+      </div>
 
+      <div class="grid-item" id="cell-search" role="form">
+        <input type="text" id="search-records-query" class="form-input" />
+        <button id="search-records-submit" class="form-control">Search by Potato ID</button>
+      </div>
 
-<<<<<<< HEAD
-    <div class="form">
-  <form id="searchForm" class="form-group">
-  <input type="text" id="searchText" class="form-control" name="serialnumber">
-  </form>
-  </div>
-  <br>
-  <div id="input">
-  <form id="inputLot" class="Form-group-input>
-  <input type="text" id="inputLot" class="form-input-lot" name="Lot">
-  <br>
-  <input type="text" id="inputEvident" class="form-input-evident" name="Evident">
-  <br>
-  <input type="text" id="inputEmergent" class="form-input-Emergent" name="Emergent">
-  <br>
-  <input type="text" id="inputCheck" class="form-input-check" name="checksummoning">
-  </form>
-  </div>
-=======
-        <!-- where and when are `introduced` group -->
-        <th class="evident when">Time first seen</th>
-        <th class="evident where">Place first seen</th>
+      <div class="grid-item" id="cell-center">
 
-        <!-- image and heightmap are `3d` group -->
-        <th class="evident image">Surface image</th>
-        <th class="evident heightmap">Heightmap data</th>
+        <div id="table-sub" role="main">
 
-        <th class="emergent density">Density</th>
-        <th class="emergent variety">Variety</th>
-        <th class="emergent color">Color</th>
-        <th class="emergent size">Size</th>
-        <th class="emergent grade">Grade</th>
+          <table border="1" id="potato-table">
+            <tr>
+              <th class="row-number">No.</th>
+              <th class="id">Unique ID</th>
 
-      </tr>
-    </table>
-    <div class="form-container">
-      <input type="text" id="search-records-query" class="form-input" />
-      <button id="search-records-submit" class="form-control">Search by Potato ID</button>
+              <th class="evident mass">Mass</th>
+              <th class="evident volume">Volume</th>
+
+              <th class="evident when">Time first seen</th>
+              <th class="evident where">Place first seen</th>
+
+              <th class="evident image">Surface image</th>
+              <th class="evident heightmap">Heightmap data</th>
+
+              <th class="emergent density">Density</th>
+              <th class="emergent variety">Variety</th>
+              <th class="emergent color">Color</th>
+              <th class="emergent size">Size</th>
+              <th class="emergent grade">Grade</th>
+
+            </tr>
+          </table>
+
+        </div>
+      </div>
+
+      <div class="grid-item" id="cell-create" role="form">
+        <div class="form-container" id="create-record">
+            <label class="form-label" for="create-record-mass">Mass</label>
+            <input class="form-input" type="number" id="create-record-mass" name="mass" >
+            <br />
+            <label class="form-label" for="create-record-volume">Volume</label>
+            <input class="form-input" type="number" id="create-record-volume" name="volume" >
+            <br />
+            <label class="form-label" for="create-record-when-date">Date</label>
+            <input class="form-input" type="date" id="create-record-when-date" name="when-date" >
+            <br />
+            <label class="form-label" for="create-record-when-time">Time</label>
+            <input class="form-input" type="time" id="create-record-when-time" name="when-time" >
+            <br />
+            <label class="form-label" for="create-record-where">Facility #</label>
+            <input class="form-input" type="text" id="create-record-where" name="where" >
+            <br />
+            <label class="form-label" for="create-record-image">Surface image</label>
+            <input class="form-input" type="upload" id="create-record-image" name="image" >
+            <br />
+            <label class="form-label" for="create-record-heightmap">Heightmap</label>
+            <input class="form-input" type="upload" id="create-record-heightmap" name="heightmap" >
+            <button id="create-record-submit" class="form-control">Create a new Potato ID</button>
+        </div>
+      </div>
+
+      <div class="grid-item" id="cell-info">
+        <footer class="about" id="about-section"></footer>
+      </div>
+
     </div>
-    <br>
-    <div class="form-container" id='create-record'>
-        <input class="form-input" type="number" id="create-record-mass" name="mass" >
-        <br />
-        <input class="form-input" type="number" id="create-record-volume" name="volume" >
-        <br />
-        <input class="form-input" type="date" id="create-record-when-date" name="when-date" >
-        <br />
-        <input class="form-input" type="time" id="create-record-when-time" name="when-time" >
-        <br />
-        <input class="form-input" type="text" id="create-record-where" name="where" >
-        <br />
-        <input class="form-input" type="upload" id="create-record-image" name="image" >
-        <br />
-        <input class="form-input" type="upload" id="create-record-heightmap" name="heightmap" >
-        <button id="create-record-submit" class="form-control">Create a new Potato ID</button>
-    </div>
->>>>>>> temp to pull
+
+    </div> <!-- end of grid root div -->
   </body>
 </html>

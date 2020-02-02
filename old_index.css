@@ -1,0 +1,36 @@
+body{
+    background-color: #e0ebe8
+}
+.id {
+	background-color: #20B2AA;
+}
+
+.lot {
+	background-color: #26d9d0;
+}
+
+.evident {
+	background-color: #47e7df;
+}
+
+.emergent {
+	background-color: #5ab9e7;
+}
+
+.check {
+	background-color: #a8f0ec;
+}
+
+th {
+	font-weight: bold;
+}
+
+table {
+	font-family: arial, sans-serif;
+}
+
+/* .form-container {} */
+
+#create-record {
+  border: 2px solid black;
+}

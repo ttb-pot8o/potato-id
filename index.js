@@ -97,8 +97,9 @@ function fill_table () {
     return false;
   }
   var data = JSON.parse(str_data);
-  var table = document.getElementById("potatoTable");
+  var table = document.getElementById("potato-table");
 
+  var counter = 1;
   data.forEach(function (obj) {
     var id = obj.id;
     var evident = obj.evident;
@@ -107,6 +108,7 @@ function fill_table () {
     var tr = document.createElement('tr');
     tr.innerHTML =
       // evident
+      '<td class="row-number">' + counter + '</td>' +
       '<td class="id">' + id + '</td>' +
       '<td class="evident mass">' + evident.mass + '</td>' +
       '<td class="evident volume">' + evident.volume + '</td>' +
@@ -123,11 +125,12 @@ function fill_table () {
       '<td class="emergent grade">' + emergent.grade + '</td>'
       ;
     table.appendChild(tr);
+    counter++;
   });
 
 }
 
-function search_query (query) {
+function search_records (query) {
   http.nosync.get(
     get_env_host() + '/search?query=' + window.encodeURI(query),
     function ok (text) {
@@ -136,10 +139,10 @@ function search_query (query) {
       var html = '';
 
       Object.keys(results).forEach( function (k) {
-        html += results[k].toString(); // not sure what to do with this
+        html += results[k].toString();
       });
 
-      document.getElementById('potatoTable').innerHTML = output;
+      document.getElementById('potato-table').innerHTML = html;
     },
     function _err (xhr, url) {
       console.error('XHR failed: ' + url);
@@ -150,13 +153,13 @@ function search_query (query) {
 function create_record (record) {
   http.nosync.post(
     get_env_host() + '/create',
-    record,
     function _ok (text) {
-      // ???
+      // ...
     },
     function _err (xhr, url) {
       console.error('XHR failed: ' + url)
-    }
+    },
+    JSON.stringify(record)
   )
 }
 
@@ -179,11 +182,11 @@ function register_events () {
           date = document.getElementById('create-record-when-date').value,
           time = document.getElementById('create-record-when-time').value;
 
-        console.log('date, time: ' + date + ', ' + time)
+        console.log('date, time: ' + date + ', ' + time);
         creating_record.when = new Date(date + ' ' + time).getTime(); // epoch
       } else {
-        var input = document.getElementById('create-record' + prop).value;
-        console.log('input' + prop + ': ' + input);
+        var input = document.getElementById('create-record-' + prop).value;
+        console.log('input = ' + prop + ': ' + input);
         creating_record[prop] = input;
       }
     } );
