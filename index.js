@@ -23,11 +23,16 @@ function xhr_callable() {
 
 var http = {
   sync: {
+    get: function (url, data, mt) { return this._xhr("GET", url, data, mt) },
+    post: function (url, data, mt) { return this._xhr("POST", url, data, mt) },
+
     _xhr: function (method, url, data, mime_type) {
       var xhr = xhr_callable();
 
       xhr.open(method, url, false);
-      xhr.setRequestHeader('Content-Type', mime_type || 'application/json');
+      if (method === "POST") {
+        xhr.setRequestHeader('Content-Type', mime_type || 'application/json');
+      }
       xhr.send(data || null);
       // TODO
       if (xhr.status !== 200) {
@@ -35,48 +40,36 @@ var http = {
       }
       return xhr.responseText;
     },
-
-    get: function (url, data) {
-      return this._xhr("GET", url, data);
-    },
-    post: function (url, data) {
-      return this._xhr("POST", url, data);
-    }
   },
 
   nosync: {
-    get: function (url, callback, failfun) {
-      var xhr = xhr_callable();
-      xhr.open("GET", url, true); // true for asynchronous
+    get: function (url, cb, ff, d, m) { return this._xhr("GET", url, cb, ff, d, m) },
+    post: function (url, cb, ff, d, m) { return this._xhr("POST", url, cb, ff, d, m) },
 
+    _xhr: function (method, url, callback, failfun, data, mime_type) {
+      var xhr = xhr_callable();
+      xhr.open(method, url, true); // true for asynchronous
+      if (method == "POST") {
+        xhr.setRequestHeader('Content-Type', mime_type || 'application/json');
+      }
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            callback(xhr.responseText);
+            (callback || this._json_ok)(xhr.responseText);
           } else {
-            failfun(xhr, url);
+            (failfun || this._json_err)(xhr, url);
           }
         }
       }
-      xhr.send(null); // connection close
+      xhr.send(data || null);
     },
 
-    post: function (url, callback, failfun, data) {
-      var xhr = xhr_callable();
+    _json_ok: function (text) {
+      fill_table( JSON.parse(text) );
+    },
 
-      xhr.open('POST', url, true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            callback(xhr.responseText);
-          } else {
-            failfun(xhr, url);
-          }
-        }
-      }
-      xhr.send(data);
+    _json_err: function (xhr, url) {
+      console.error('XHR failed: ' + url);
     }
   }
 }
@@ -90,13 +83,12 @@ function get_env_host() {
     : "https://catnipcdn.pagekite.me" ;
 }
 
-function fill_table () {
-  var str_data = http.sync.get(get_env_host() + '/all');
-  if (data === null) {
-    console.log('some error fetching');
-    return false;
-  }
-  var data = JSON.parse(str_data);
+function load_all () {
+
+  http.nosync.get( get_env_host() + '/all', null, null );
+}
+
+function fill_table (data) {
   var table = document.getElementById("potato-table");
 
   var counter = 1;
@@ -133,33 +125,13 @@ function fill_table () {
 function search_records (query) {
   http.nosync.get(
     get_env_host() + '/search?query=' + window.encodeURI(query),
-    function ok (text) {
-      var results = JSON.parse(text);
-      console.log(results);
-      var html = '';
-
-      Object.keys(results).forEach( function (k) {
-        html += results[k].toString();
-      });
-
-      document.getElementById('potato-table').innerHTML = html;
-    },
-    function _err (xhr, url) {
-      console.error('XHR failed: ' + url);
-    }
+    null, null
   );
 }
 
 function create_record (record) {
   http.nosync.post(
-    get_env_host() + '/create',
-    function _ok (text) {
-      // ...
-    },
-    function _err (xhr, url) {
-      console.error('XHR failed: ' + url)
-    },
-    JSON.stringify(record)
+    get_env_host() + '/create', null, null, JSON.stringify(record)
   )
 }
 
@@ -171,7 +143,6 @@ function register_events () {
     var query = document.getElementById('search-records-query').value;
     search_records(query);
   });
-
   // for create_record
   document.getElementById('create-record-submit').addEventListener('click', function (e) {
     e.preventDefault();
@@ -197,7 +168,7 @@ function register_events () {
 
 function main () {
   register_events();
-  fill_table();
+  load_all();
 }
 
 window.onload = function _main () {
