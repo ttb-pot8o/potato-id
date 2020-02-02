@@ -1,30 +1,100 @@
 body{ 
     background-color: #e0ebe8
 }
-.id {
-	background-color: #20B2AA;
+
+
+    HTML CSS 
+
+    Result 
+
+EDIT ON
+
+body {
+  margin: 40px;
 }
 
-.lot {
-	background-color: #26d9d0;
+.table {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-gap: 10px;
+  background-color: #fff;
+  color: #444;
 }
 
-.evident {
-	background-color: #47e7df;
+  .box {
+    background-color: #1fada6;
+    color: #000000;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 150%;
 }
 
-.emergent {
-	background-color: #5ab9e7;
-}
+   .id {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .lot {
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .evident {
+        grid-column-start: 4;
+        grid-column-end: 5;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .emergent {
+        grid-column-start: 5;
+        grid-column-end: 6;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .check {
+        grid-column-start: 6;
+        grid-column-end: 7;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .box-d {
+        background-color: #7de8e3;
+        color: #000000;
+        border-radius: 5px;
+        padding: 20px;
+        font-size: 150%;
+    }
 
-.check {
-	background-color: #a8f0ec;
-}
+   .id-d {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+    .lot-d {
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+    .evident-d {
+        grid-column-start: 4;
+        grid-column-end: 5;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+    .emergent-d {
+        grid-column-start: 5;
+        grid-column-end: 6;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+    .check-d {
+        grid-column-start: 6;
+        grid-column-end: 7;
+        grid-row-start: 2;
+        grid-row-end: 3;
+	}
 
-th {
-	font-weight: bold;
-}
-
-table {
-	font-family: arial, sans-serif;
-}
