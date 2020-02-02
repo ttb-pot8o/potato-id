@@ -44,7 +44,7 @@ var http = {
     }
   },
 
-   nosync: {
+  nosync: {
     get: function (url, callback, failfun) {
       var xhr = xhr_callable();
       xhr.open("GET", url, true); // true for asynchronous
@@ -81,6 +81,8 @@ var http = {
   }
 }
 
+var EVIDENT_PROPERTIES = ['mass', 'volume', 'when', 'where', 'image', 'heightmap'];
+
 /* developer env vs production server */
 function get_env_host() {
   return null !== window.location.href.match(/^http:\/\/localhost:(3000|9000).*$/)
@@ -89,7 +91,7 @@ function get_env_host() {
 }
 
 function fill_table () {
-  var str_data = http.sync.get(get_env_host() + '/data');
+  var str_data = http.sync.get(get_env_host() + '/all');
   if (data === null) {
     console.log('some error fetching');
     return false;
@@ -125,7 +127,73 @@ function fill_table () {
 
 }
 
+function search_query (query) {
+  http.nosync.get(
+    get_env_host() + '/search?query=' + window.encodeURI(query),
+    function ok (text) {
+      var results = JSON.parse(text);
+      console.log(results);
+      var html = '';
+
+      Object.keys(results).forEach( function (k) {
+        html += results[k].toString(); // not sure what to do with this
+      });
+
+      document.getElementById('potatoTable').innerHTML = output;
+    },
+    function _err (xhr, url) {
+      console.error('XHR failed: ' + url);
+    }
+  );
+}
+
+function create_record (record) {
+  http.nosync.post(
+    get_env_host() + '/create',
+    record,
+    function _ok (text) {
+      // ???
+    },
+    function _err (xhr, url) {
+      console.error('XHR failed: ' + url)
+    }
+  )
+}
+
+function register_events () {
+
+  /* for search by UID */
+  document.getElementById('search-records-submit').addEventListener('click', function (e) {
+    e.preventDefault();
+    var query = document.getElementById('search-records-query').value;
+    search_records(query);
+  });
+
+  // for create_record
+  document.getElementById('create-record-submit').addEventListener('click', function (e) {
+    e.preventDefault();
+    var creating_record = {};
+    EVIDENT_PROPERTIES.forEach( function (prop) {
+      if ( prop === "when" ) {
+        var
+          date = document.getElementById('create-record-when-date').value,
+          time = document.getElementById('create-record-when-time').value;
+
+        console.log('date, time: ' + date + ', ' + time)
+        creating_record.when = new Date(date + ' ' + time).getTime(); // epoch
+      } else {
+        var input = document.getElementById('create-record' + prop).value;
+        console.log('input' + prop + ': ' + input);
+        creating_record[prop] = input;
+      }
+    } );
+    create_record(creating_record);
+  });
+}
+
+
 function main () {
+  register_events();
   fill_table();
 }
 

@@ -29,6 +29,7 @@
 </div>
 
 
+<<<<<<< HEAD
     <div class="form">
   <form id="searchForm" class="form-group">
   <input type="text" id="searchText" class="form-control" name="serialnumber">
@@ -46,5 +47,44 @@
   <input type="text" id="inputCheck" class="form-input-check" name="checksummoning">
   </form>
   </div>
+=======
+        <!-- where and when are `introduced` group -->
+        <th class="evident when">Time first seen</th>
+        <th class="evident where">Place first seen</th>
+
+        <!-- image and heightmap are `3d` group -->
+        <th class="evident image">Surface image</th>
+        <th class="evident heightmap">Heightmap data</th>
+
+        <th class="emergent density">Density</th>
+        <th class="emergent variety">Variety</th>
+        <th class="emergent color">Color</th>
+        <th class="emergent size">Size</th>
+        <th class="emergent grade">Grade</th>
+
+      </tr>
+    </table>
+    <div class="form-container">
+      <input type="text" id="search-records-query" class="form-input" />
+      <button id="search-records-submit" class="form-control">Search by Potato ID</button>
+    </div>
+    <br>
+    <div class="form-container" id='create-record'>
+        <input class="form-input" type="number" id="create-record-mass" name="mass" >
+        <br />
+        <input class="form-input" type="number" id="create-record-volume" name="volume" >
+        <br />
+        <input class="form-input" type="date" id="create-record-when-date" name="when-date" >
+        <br />
+        <input class="form-input" type="time" id="create-record-when-time" name="when-time" >
+        <br />
+        <input class="form-input" type="text" id="create-record-where" name="where" >
+        <br />
+        <input class="form-input" type="upload" id="create-record-image" name="image" >
+        <br />
+        <input class="form-input" type="upload" id="create-record-heightmap" name="heightmap" >
+        <button id="create-record-submit" class="form-control">Create a new Potato ID</button>
+    </div>
+>>>>>>> temp to pull
   </body>
 </html>
