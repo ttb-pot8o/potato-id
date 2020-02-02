@@ -52,18 +52,20 @@ var http = {
       if (method == "POST") {
         xhr.setRequestHeader('Content-Type', mime_type || 'application/json');
       }
+
+      var no_sync = this;
+
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            (callback || this._json_ok)(xhr.responseText);
+            (callback || no_sync._json_ok)(xhr.responseText);
           } else {
-            (failfun || this._json_err)(xhr, url);
+            (failfun || no_sync._json_err)(xhr, url);
           }
         }
       }
       xhr.send(data || null);
     },
-
     _json_ok: function (text) {
       fill_table( JSON.parse(text) );
     },
