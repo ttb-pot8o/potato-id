@@ -55,7 +55,7 @@ var http = {
 
       var no_sync = this;
 
-      xhr.onreadystatechange = function() {
+      xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
             (callback || no_sync._json_ok)(xhr.responseText);
@@ -66,12 +66,13 @@ var http = {
       }
       xhr.send(data || null);
     },
+
     _json_ok: function (text) {
       fill_table( JSON.parse(text) );
     },
 
     _json_err: function (xhr, url) {
-      console.error('XHR failed: ' + url);
+      console.error('XHR failed: ' + JSON.stringify(xhr));
     }
   }
 }
@@ -80,14 +81,17 @@ var EVIDENT_PROPERTIES = ['mass', 'volume', 'when', 'where', 'image', 'heightmap
 
 /* developer env vs production server */
 function get_env_host() {
-  return null !== window.location.href.match(/^http:\/\/localhost:(3000|9000).*$/)
+  return null !== window.location.href.match(/^(?:http:\/\/)localhost:(3000|9000).*$/)
     ? "http://localhost:9000"
     : "https://catnipcdn.pagekite.me" ;
 }
 
 function load_all () {
-
-  http.nosync.get( get_env_host() + '/all', null, null );
+  var f = http.sync.get( get_env_host() + '/all' );
+  if (f === null) {
+    return;
+  }
+  fill_table( JSON.parse(f) );
 }
 
 function fill_table (data) {
@@ -125,10 +129,7 @@ function fill_table (data) {
 }
 
 function search_records (query) {
-  http.nosync.get(
-    get_env_host() + '/search?query=' + window.encodeURI(query),
-    null, null
-  );
+  http.nosync.get( get_env_host() + '/search?query=' + window.encodeURI(query) );
 }
 
 function create_record (record) {
